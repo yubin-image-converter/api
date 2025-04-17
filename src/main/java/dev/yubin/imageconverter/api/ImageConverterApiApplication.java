@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ImageConverterApiApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ImageConverterApiApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(ImageConverterApiApplication.class, args);
+  }
 }

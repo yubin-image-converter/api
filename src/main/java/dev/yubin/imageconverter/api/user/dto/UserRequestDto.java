@@ -1,10 +1,12 @@
 package dev.yubin.imageconverter.api.user.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import dev.yubin.imageconverter.api.user.enums.OAuthProvider;
+import lombok.Getter;
 
-public record UserRequestDto(
-        @Email @NotBlank String email,
-        @NotBlank String name,
-        @NotBlank String password
-) {}
+@Getter
+public class UserRequestDto {
+  private String email;
+  private OAuthProvider provider;
+  private String providerId;
+  private String name;
+}
