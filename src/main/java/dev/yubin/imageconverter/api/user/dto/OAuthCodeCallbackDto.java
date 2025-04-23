@@ -8,9 +8,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequestDto {
-  private String email;
-  private OAuthProvider provider;
-  private String providerId;
-  private String name;
+public class OAuthCodeCallbackDto {
+    private OAuthProvider provider;
+    private String code;
+    private String state;
 }

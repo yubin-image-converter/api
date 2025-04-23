@@ -2,42 +2,71 @@ spring:
   application:
     name: image-converter-api
 
+  docker:
+    compose:
+      enabled: false
+
   devtools:
     restart:
       enabled: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/develop
+    url: jdbc:postgresql://192.168.0.110:5432/image-converter
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
+        default_schema: public
         dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc:
           time_zone: UTC
 
-  data:
-    redis:
-      host: localhost
-      port: 6379
-    mongodb:
-      uri: mongodb://admin:admin@localhost:27017
-
   rabbitmq:
-    host: localhost
+    host: 192.168.0.110
     port: 5672
     username: guest
     password: guest
 
+  data:
+    redis:
+      host: 192.168.0.110
+      port: 6379
+
 springdoc:
   api-docs:
-    enabled: true
+    # context-path 뒤에 또 /api 가 붙지 않도록,
+    # 기본값인 /v3/api-docs 로 되돌려 줍니다.
+    path: /v3/api-docs
+
   swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
+    # UI 가 불러올 OpenAPI 스펙 URL
+    url: /api/v3/api-docs
+    # swagger‑config.json 을 직접 지정하면 좀 더 명시적입니다.
+    config-url: /api/v3/api-docs/swagger-config
+
+server:
+  address: api.yubin.localhost
+  port: 8080
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+jwt:
+  secret: f64e342a5d753cb3a693d879689e73462b285db2741a5ee443ca97f54b26e313e5a27c20bdcce8cbc19f21a79b2e5b88917754ad4a0187b0849bb025235c226b0783bb5e81f19c71ccb503acdcb61acb8cab6991f067e576fe10f11fd46e0df8387381766dc12817f85db5411d37bb1f668f90ad3828d589a4c86b547124f157c3c6d5cb21582b0472bfae54af5df586a77d5bbf4930b200adc1d95f423668e60dea865d69af29f49fc7aae859d8d9e75d86959fad19a8591c46e51088ff41f34dbee0af07163ca6523865a435fd51e712d6ecf67dd5f939015069059b3cb060f9a8321ba1b2daf43e8de43b06616c7d80dfbd3614e94aba1ea6494a0c2873af
+  expiration-ms: 604800000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
