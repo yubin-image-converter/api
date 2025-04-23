@@ -1,4 +1,4 @@
-package dev.yubin.imageconverter.api.user.dto;
+package dev.yubin.imageconverter.api.auth.controller.dto;
 
 import dev.yubin.imageconverter.api.user.enums.OAuthProvider;
 import lombok.AllArgsConstructor;

@@ -2,6 +2,7 @@ package dev.yubin.imageconverter.api.user.entity;
 
 import de.huxhorn.sulky.ulid.ULID;
 import dev.yubin.imageconverter.api.user.enums.OAuthProvider;
+import dev.yubin.imageconverter.api.user.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,6 +40,10 @@ public class User {
     private String providerId;
 
     private String name;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
 
     @CreationTimestamp(source = SourceType.DB)
     @Column(updatable = false, nullable = false)

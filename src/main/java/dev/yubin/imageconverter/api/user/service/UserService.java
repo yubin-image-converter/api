@@ -1,8 +1,9 @@
 package dev.yubin.imageconverter.api.user.service;
 
-import dev.yubin.imageconverter.api.user.dto.NestOAuthUserDto;
+import dev.yubin.imageconverter.api.auth.controller.dto.NestOAuthUserDto;
 import dev.yubin.imageconverter.api.user.dto.UserResponseDto;
 import dev.yubin.imageconverter.api.user.entity.User;
+import dev.yubin.imageconverter.api.user.enums.Role;
 import dev.yubin.imageconverter.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,7 @@ public class UserService {
                                                        .name(userInfo.getName())
                                                        .provider(userInfo.getProvider())
                                                        .providerId(userInfo.getProviderId())
+                                                       .role(Role.USER)
                                                        .build());
                 });
 

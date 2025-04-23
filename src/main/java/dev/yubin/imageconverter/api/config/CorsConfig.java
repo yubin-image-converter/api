@@ -15,7 +15,8 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOriginPatterns(List.of("http://localhost:5173",
+        config.setAllowedOriginPatterns(List.of("http://192.168.0.110:5173",
+                                                "http://localhost:5173",
                                                 "http://localhost:3000"));
         // 프론트엔드 주소
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE",
