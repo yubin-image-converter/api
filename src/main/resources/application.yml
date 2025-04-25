@@ -11,9 +11,9 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:postgresql://192.168.0.110:5432/image-converter
+    url: jdbc:postgresql://postgres.yubinshin.com:5432/image-converter
     username: postgres
-    password: postgres
+    password: S0m3C0mpl3x_Pa$$
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -35,7 +35,7 @@ spring:
 
   data:
     redis:
-      host: 192.168.0.110
+      host: redis.yubinshin.com
       port: 6379
 
 springdoc:
@@ -51,7 +51,7 @@ springdoc:
     config-url: /api/v3/api-docs/swagger-config
 
 server:
-  address: api.yubin.localhost
+  address: 0.0.0.0
   port: 8080
   servlet:
     context-path: /api
