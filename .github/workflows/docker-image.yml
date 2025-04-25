@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-
+  workflow_dispatch:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -38,5 +38,7 @@ jobs:
           context: .
           file: ./Dockerfile           # Dockerfile 경로
           push: true                   # 빌드 후 레지스트리에 푸시
-          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/image-converter-api:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/image-converter-api:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/image-converter-api:${{ github.run_number }}
           platforms: linux/amd64,linux/arm64
