@@ -1,5 +1,6 @@
 package dev.yubin.imageconverter.api.convert.controller;
 
+import dev.yubin.imageconverter.api.convert.enums.ImageFormat;
 import dev.yubin.imageconverter.api.convert.service.ConvertService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,7 +26,7 @@ public class ConvertController {
             @RequestPart("file") MultipartFile file,
 
             @Parameter(description = "변환할 포맷 (예: png, webp, jpeg)", required = true)
-            @RequestPart("format") String format
+            @RequestPart("format") ImageFormat format
     ) {
         // 나중에 convertService → RabbitMQ publish
         return ResponseEntity.ok("변환 요청 전송 완료!");
