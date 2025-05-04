@@ -1,69 +1,67 @@
 spring:
   application:
-    name: image-converter-api
+    name: ${SPRING_APPLICATION_NAME:image-converter-api}
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:prod}
 
   docker:
     compose:
-      enabled: false
+      enabled: ${SPRING_DOCKER_COMPOSE_ENABLED:false}
 
   devtools:
     restart:
-      enabled: true
+      enabled: ${SPRING_DEVTOOLS_RESTART_ENABLED:true}
 
   datasource:
-    url: jdbc:postgresql://192.168.0.110:5432/image-converter
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/image-converter}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
-    show-sql: true
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
     properties:
       hibernate:
-        default_schema: public
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: ${SPRING_JPA_DEFAULT_SCHEMA:public}
+        dialect: ${SPRING_JPA_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
         jdbc:
-          time_zone: UTC
+          time_zone: ${SPRING_JPA_TIME_ZONE:UTC}
 
   rabbitmq:
-    host: 192.168.0.110
-    port: 5672
-    username: guest
-    password: guest
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
 
   data:
     redis:
-      host: 192.168.0.110
-      port: 6379
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
 
 springdoc:
   api-docs:
-    # context-path 뒤에 또 /api 가 붙지 않도록,
-    # 기본값인 /v3/api-docs 로 되돌려 줍니다.
-    path: /v3/api-docs
-
+    path: ${SPRINGDOC_API_DOCS_PATH:/v3/api-docs}
   swagger-ui:
-    # UI 가 불러올 OpenAPI 스펙 URL
-    url: /api/v3/api-docs
-    # swagger‑config.json 을 직접 지정하면 좀 더 명시적입니다.
-    config-url: /api/v3/api-docs/swagger-config
+    url: ${SPRINGDOC_SWAGGER_UI_URL:/api/v3/api-docs}
+    config-url: ${SPRINGDOC_SWAGGER_UI_CONFIG_URL:/api/v3/api-docs/swagger-config}
 
 server:
-  address: api.yubin.localhost
-  port: 8080
+  address: ${SERVER_ADDRESS:0.0.0.0}
+  port: ${SERVER_PORT:8080}
   servlet:
-    context-path: /api
+    context-path: ${SERVER_SERVLET_CONTEXT_PATH:/api}
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:debug}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_HIBERNATE_BINDER:trace}
 
 jwt:
-  secret: f64e342a5d753cb3a693d879689e73462b285db2741a5ee443ca97f54b26e313e5a27c20bdcce8cbc19f21a79b2e5b88917754ad4a0187b0849bb025235c226b0783bb5e81f19c71ccb503acdcb61acb8cab6991f067e576fe10f11fd46e0df8387381766dc12817f85db5411d37bb1f668f90ad3828d589a4c86b547124f157c3c6d5cb21582b0472bfae54af5df586a77d5bbf4930b200adc1d95f423668e60dea865d69af29f49fc7aae859d8d9e75d86959fad19a8591c46e51088ff41f34dbee0af07163ca6523865a435fd51e712d6ecf67dd5f939015069059b3cb060f9a8321ba1b2daf43e8de43b06616c7d80dfbd3614e94aba1ea6494a0c2873af
-  expiration-ms: 604800000
+  secret: ${JWT_SECRET:e6952c34db32e8c5e8403f92397568f2603d0bf648c70d8c9753b97358db3cdeb6cdc2dd02ac3a5def53066b3b8c1f503d2b343884d07928d28533876e011d5aac2c8f86abad9f801a7a33d3b5e3f14561e5281a3d9c590c306262e15d8fb34e3a23587af4e1441b1b6412580b2f447b648e6aec70c1ba43e880d2d5dcc71669c47c2cf8d974a0969a104c12dc29262180d88bd388afbf297e9e569182f337d5ebd5774d478eaf7658676a4994ef9bc9e9cd39b3873078d831f0f5277dc783885cb4973bfc7db695e0d2a4de83811a8487112aae9adb66d0a731a0f3d9e751ce41e27a92e60f89778472441b4565b429741a341663239a2436ab76a0d58eaf25}
+  expiration-ms: ${JWT_EXPIRATION_MS:604800000}
 
 management:
   endpoints:
