@@ -17,16 +17,23 @@ public class CorsConfig {
 
         config.setAllowedOriginPatterns(List.of("http://192.168.0.110:5173",
                                                 "http://localhost:5173",
-                                                "http://localhost:3000"));
+                                                "http://localhost:3000",
+                                                "https://api.image-converter.yubinshin.com",
+                                                "https://auth.image-converter.yubinshin.com",
+                                                "https://image-converter.yubinshin.com"));
         // 프론트엔드 주소
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE",
+        config.setAllowedMethods(List.of("GET",
+                                         "POST",
+                                         "PUT",
+                                         "DELETE",
                                          "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**",
+                                         config);
 
         return source;
     }
