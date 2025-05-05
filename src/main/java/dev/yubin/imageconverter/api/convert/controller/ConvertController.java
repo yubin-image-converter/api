@@ -28,7 +28,7 @@ public class ConvertController {
             @Parameter(description = "변환할 포맷 (예: png, webp, jpeg)", required = true)
             @RequestPart("format") ImageFormat format
     ) {
-        // 나중에 convertService → RabbitMQ publish
+        convertService.convert(file, format);
         return ResponseEntity.ok("변환 요청 전송 완료!");
     }
 
