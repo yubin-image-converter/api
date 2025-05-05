@@ -24,15 +24,7 @@ public class ConvertService {
 
     @Value("${rabbitmq.routing-key.convert}")
     private String convertRoutingKey;
-
-
-//    public void convert(MultipartFile file, ImageFormat format) {
-//        // TODO: 여기서 파일 저장하고, RabbitMQ로 작업 메시지 전송
-//        System.out.println("파일 이름: " + file.getOriginalFilename());
-//        System.out.println("변환 포맷: " + format.name());
-//
-//        // 예: rabbitTemplate.convertAndSend(...) or 저장 경로 생성 등
-//    }
+    
 
     public void sendConvertRequest(MultipartFile file, ImageFormat format, String userId) {
         try {
