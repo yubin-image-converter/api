@@ -1,6 +1,7 @@
 package dev.yubin.imageconverter.api.user.entity;
 
 import de.huxhorn.sulky.ulid.ULID;
+import dev.yubin.imageconverter.api.common.util.ULIDGenerator;
 import dev.yubin.imageconverter.api.user.enums.OAuthProvider;
 import dev.yubin.imageconverter.api.user.enums.Role;
 import jakarta.persistence.*;
@@ -56,7 +57,7 @@ public class User {
 
     @PrePersist
     public void generateIds() {
-        if (this.id == null) this.id = ULID_GENERATOR.nextULID();
+        if (this.id == null) this.id = ULIDGenerator.generate();
         if (this.publicId == null)
             this.publicId = "usr_" + this.id.substring(0, 8);
     }
