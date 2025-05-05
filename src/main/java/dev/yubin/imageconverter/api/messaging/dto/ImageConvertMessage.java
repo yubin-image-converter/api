@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageConvertMessage {
+public class ImageConvertMessage implements Serializable {
     private String requestId;         // ULID 사용
     private String userId;
     private String originalFilename;

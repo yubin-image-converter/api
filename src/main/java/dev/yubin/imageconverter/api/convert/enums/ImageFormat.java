@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "이미지 변환 포맷")
 public enum ImageFormat {
-    @Schema(description = "JPEG 형식")
-    JPEG,
+    @Schema(description = "JPG 형식")
+    JPG,
 
     @Schema(description = "PNG 형식")
     PNG,

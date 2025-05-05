@@ -6,18 +6,17 @@ import dev.yubin.imageconverter.api.security.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/converts")
 @RequiredArgsConstructor
+@Slf4j
 public class ConvertController {
     private final ConvertService convertService;
 
@@ -30,9 +29,12 @@ public class ConvertController {
             @RequestPart("file") MultipartFile file,
 
             @Parameter(description = "변환할 포맷 (예: png, webp, jpeg)", required = true)
-            @RequestPart("format") ImageFormat format
+            @RequestParam("format") ImageFormat format
     ) {
+
         String userId = userDetails.getUser().getId();
+        log.info(userId, "변환요청 도착");
+
         convertService.sendConvertRequest(file, format, userId);
         return ResponseEntity.ok("변환 요청 전송 완료!");
     }

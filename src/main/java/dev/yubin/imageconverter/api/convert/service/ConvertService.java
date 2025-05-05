@@ -20,6 +20,7 @@ import java.io.IOException;
 public class ConvertService {
 
     private final RabbitTemplate rabbitTemplate;
+
     private final RabbitMQProperties rabbitMQProperties;
 
     private final DummyResultPublisher dummyResultPublisher;
