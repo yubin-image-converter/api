@@ -1,4 +1,4 @@
-package dev.yubin.imageconverter.api.messaging.producer;
+package dev.yubin.imageconverter.api.messaging.publisher;
 
 import dev.yubin.imageconverter.api.messaging.dto.ImageConvertMessage;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ImageConvertRequestProducer {
+public class ImageConvertRequestPublisher {
 
     private final RabbitTemplate rabbitTemplate;
 

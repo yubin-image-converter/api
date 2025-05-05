@@ -1,16 +1,14 @@
-package dev.yubin.imageconverter.api.messaging.config;
+package dev.yubin.imageconverter.api.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@EnableConfigurationProperties(RabbitMQProperties.class)
 public class RabbitMQConfig {
 
     private final RabbitMQProperties properties;
@@ -21,7 +19,13 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue convertQueue() {
+        System.out.println("🐛 DEBUG queue name = " + properties.getQueue()); // 여기 null이면 → 주입 실패
         return new Queue(properties.getQueue());
+    }
+
+    @Bean
+    public Queue resultQueue() {
+        return new Queue(properties.getResultQueue(), true);
     }
 
     @Bean
