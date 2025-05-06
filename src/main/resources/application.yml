@@ -76,3 +76,6 @@ rabbitmq:
     queue: image.convert.queue
     routing-key: image.convert.routingKey
     result-queue: image.convert.result.queue
+
+nfs:
+  root: /Users/river.yb.shin/personal-workspace/image-converter/uploads

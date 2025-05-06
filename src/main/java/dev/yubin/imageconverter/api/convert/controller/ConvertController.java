@@ -33,7 +33,10 @@ public class ConvertController {
     ) {
 
         String userId = userDetails.getUser().getId();
-        log.info(userId, "변환요청 도착");
+        log.info("변환요청 도착");
+        log.info(userId);
+
+
 
         convertService.sendConvertRequest(file, format, userId);
         return ResponseEntity.ok("변환 요청 전송 완료!");
