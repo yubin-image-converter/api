@@ -32,7 +32,7 @@ public class ConvertService {
     @Autowired
     private NfsUtil nfsUtil;
 
-    public void sendConvertRequest(MultipartFile file, ImageFormat format, String userId) {
+    public String sendConvertRequest(MultipartFile file, ImageFormat format, String userId) {
         try {
             String requestId = ULIDGenerator.generate();
 
@@ -57,6 +57,7 @@ public class ConvertService {
             if ("local".equals(activeProfile)) {
                 dummyResultPublisher.sendDummyResult(requestId, format, userId);
             }
+            return requestId;
 
         } catch (IOException e) {
             log.error("파일 저장 중 오류", e);

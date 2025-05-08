@@ -1,5 +1,6 @@
 package dev.yubin.imageconverter.api.convert.controller;
 
+import dev.yubin.imageconverter.api.convert.dto.response.ConvertResponse;
 import dev.yubin.imageconverter.api.convert.enums.ImageFormat;
 import dev.yubin.imageconverter.api.convert.service.ConvertService;
 import dev.yubin.imageconverter.api.security.userdetails.CustomUserDetails;
@@ -38,8 +39,7 @@ public class ConvertController {
 
 
 
-        convertService.sendConvertRequest(file, format, userId);
-        return ResponseEntity.ok("변환 요청 전송 완료!");
-    }
+        String requestId = convertService.sendConvertRequest(file, format, userId);
+        return ResponseEntity.ok(new ConvertResponse(requestId, userId));    }
 
 }
