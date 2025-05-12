@@ -1,9 +1,11 @@
 spring:
   application:
     name: ${SPRING_APPLICATION_NAME:image-converter-api}
+
   web:
-      resources:
-        static-locations: file:/Users/river.yb.shin/personal-workspace/image-converter/uploads/
+    resources:
+      static-locations: ${STATIC_LOCATIONS:file:/Users/river.yb.shin/personal-workspace/image-converter/uploads/}
+
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
 
@@ -42,11 +44,13 @@ spring:
     redis:
       host: ${SPRING_DATA_REDIS_HOST:localhost}
       port: ${SPRING_DATA_REDIS_PORT:6379}
-      password: ${SPRING_DATA_REDIS_PORT:local}
+      password: ${SPRING_DATA_REDIS_PASSWORD:local}
+
   servlet:
     multipart:
-      max-file-size: 200MB
-      max-request-size: 200MB
+      max-file-size: 100MB
+      max-request-size: 100MB
+
 springdoc:
   api-docs:
     path: ${SPRINGDOC_API_DOCS_PATH:/v3/api-docs}
@@ -66,7 +70,7 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_HIBERNATE_BINDER:trace}
 
 jwt:
-  secret: ${JWT_SECRET:e6952c34db32e8c5e8403f92397568f2603d0bf648c70d8c9753b97358db3cdeb6cdc2dd02ac3a5def53066b3b8c1f503d2b343884d07928d28533876e011d5aac2c8f86abad9f801a7a33d3b5e3f14561e5281a3d9c590c306262e15d8fb34e3a23587af4e1441b1b6412580b2f447b648e6aec70c1ba43e880d2d5dcc71669c47c2cf8d974a0969a104c12dc29262180d88bd388afbf297e9e569182f337d5ebd5774d478eaf7658676a4994ef9bc9e9cd39b3873078d831f0f5277dc783885cb4973bfc7db695e0d2a4de83811a8487112aae9adb66d0a731a0f3d9e751ce41e27a92e60f89778472441b4565b429741a341663239a2436ab76a0d58eaf25}
+  secret: ${JWT_SECRET:this_is_a_fake_jwt_secret_for_local_testing_12345!}
   expiration-ms: ${JWT_EXPIRATION_MS:604800000}
 
 management:
@@ -77,13 +81,13 @@ management:
 
 rabbitmq:
   convert:
-    exchange: image.convert.exchange
-    queue: image.convert.queue
-    routing-key: image.convert.routingKey
-    result-queue: image.convert.result.queue
+    exchange: ${RABBITMQ_EXCHANGE:image.convert.exchange}
+    queue: ${RABBITMQ_QUEUE:image.convert.queue}
+    routing-key: ${RABBITMQ_ROUTING_KEY:image.convert.routingKey}
+    result-queue: ${RABBITMQ_RESULT_QUEUE:image.convert.result.queue}
 
 nfs:
-  root: /uploads
+  root: ${NFS_ROOT:/uploads}
 
 app:
-  host-url: http://localhost:8080
+  host-url: ${HOST_URL:http://localhost:8080}
