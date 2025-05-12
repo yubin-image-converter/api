@@ -1,7 +1,9 @@
 spring:
   application:
     name: ${SPRING_APPLICATION_NAME:image-converter-api}
-
+  web:
+      resources:
+        static-locations: file:/Users/river.yb.shin/personal-workspace/image-converter/uploads/
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
 
@@ -41,7 +43,10 @@ spring:
       host: ${SPRING_DATA_REDIS_HOST:localhost}
       port: ${SPRING_DATA_REDIS_PORT:6379}
       password: ${SPRING_DATA_REDIS_PORT:local}
-
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
 springdoc:
   api-docs:
     path: ${SPRINGDOC_API_DOCS_PATH:/v3/api-docs}
@@ -78,4 +83,7 @@ rabbitmq:
     result-queue: image.convert.result.queue
 
 nfs:
-  root: /Users/river.yb.shin/personal-workspace/image-converter/uploads
+  root: /uploads
+
+app:
+  host-url: http://localhost:8080
