@@ -61,17 +61,24 @@ public class ConvertController {
     public ResponseEntity<?> getConvertResult(
             @RequestParam("requestId") String requestId
     ) {
+        log.info("🟡 [DEBUG] ASCII 결과 조회 요청: requestId={}", requestId);
+
         String key = "ascii_result:" + requestId;
         String txtPath = redisTemplate.opsForValue().get(key);
-        log.info(requestId);
+
+        log.info("🔎 [DEBUG] Redis 조회 key: {} → value: {}", key, txtPath);
+
         if (txtPath == null) {
+            log.warn("❌ [DEBUG] 변환 결과 없음: requestId={}", requestId);
             return ResponseEntity.status(404).body(Map.of("message", "결과를 찾을 수 없습니다"));
         }
 
         String fullUrl = hostUrl + "/api" + txtPath; // ✅ 절대경로로 변환
-        log.info(fullUrl);
+        log.info("✅ [DEBUG] ASCII 결과 URL 반환: {}", fullUrl);
+
         return ResponseEntity.ok(Map.of("txtUrl", fullUrl));
     }
+
 
 
     @PostMapping("/complete")
