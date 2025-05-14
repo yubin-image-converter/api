@@ -62,4 +62,5 @@ public class User {
         if (this.publicId == null)
             this.publicId = "usr_" + this.id.substring(0, 8);
     }
+
 }

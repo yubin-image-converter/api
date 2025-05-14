@@ -1,24 +1,22 @@
-# 1) Build 스테이지: Gradle 이미지로 빌드
+# 1단계: 빌드
 FROM gradle:7.6-jdk17 AS builder
 WORKDIR /app
 
-# 의존성 선언 파일 먼저 복사해서 캐시 활용
+# ✅ 의존성 캐시용: Gradle 설정 먼저 복사
 COPY build.gradle settings.gradle ./
-# src 코드만 복사
-COPY src/ src/
+RUN gradle dependencies --no-daemon
 
-# 시스템에 내장된 gradle 명령어로 fat-jar 생성
-RUN gradle clean bootJar -x test --no-daemon
+# ✅ 전체 복사 (resources 포함)
+COPY . .
 
-# 2) Runtime 스테이지: 경량 JRE 사용
+# ✅ 테스트 생략하고 fat jar 생성
+RUN gradle bootJar -x test --no-daemon
+
+# 2단계: 런타임
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-# 빌드 결과물 복사
 COPY --from=builder /app/build/libs/*.jar app.jar
 
-# 포트 노출 (application.yml 설정 포트와 맞춰주세요)
 EXPOSE 8080
-
-# JVM 옵션 필요하면 추가 가능
 ENTRYPOINT ["java", "-jar", "app.jar"]
