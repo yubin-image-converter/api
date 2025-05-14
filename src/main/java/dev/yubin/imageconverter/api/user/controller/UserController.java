@@ -22,7 +22,6 @@ public class UserController {
 
     @GetMapping("/me")
     public UserResponseDto findMe() {
-        log.info("me~~~~~");
 
         Object principal = SecurityContextHolder
                 .getContext()

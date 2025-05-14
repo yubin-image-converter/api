@@ -25,10 +25,6 @@ public class ConvertService {
 
     private final RabbitMQProperties rabbitMQProperties;
 
-    private final DummyResultPublisher dummyResultPublisher;
-    @Value("${spring.profiles.active:}") // 선택적으로 적용
-    private String activeProfile;
-
     @Autowired
     private NfsUtil nfsUtil;
 
@@ -38,6 +34,8 @@ public class ConvertService {
 
             // NFS에 저장
             String path = nfsUtil.saveFileToNfs(file, userId, requestId);
+
+            log.info(path);
 
             // 메시지 구성
             ImageConvertMessage message = new ImageConvertMessage(
@@ -54,9 +52,9 @@ public class ConvertService {
                     message
             );
 
-            if ("local".equals(activeProfile)) {
-                dummyResultPublisher.sendDummyResult(requestId, format, userId);
-            }
+            log.info("File saved at path: {}", path);
+            log.info("NFS_ROOT: {}", nfsUtil.getRoot()); // 만약 root 경로를 가지고 있으면
+
             return requestId;
 
         } catch (IOException e) {
@@ -65,4 +63,5 @@ public class ConvertService {
         }
     }
 
+    
 }
