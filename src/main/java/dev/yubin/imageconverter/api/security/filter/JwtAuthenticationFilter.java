@@ -35,11 +35,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         return path.startsWith("/api/auth/") ||
                 path.startsWith("/api/converts/complete")||
+                // Swagger 경로: 로컬 대응
                 path.startsWith("/swagger-ui") ||
                 path.startsWith("/v3/api-docs") ||
+                path.equals("/swagger-ui.html") ||
+
+                // Swagger 경로: 배포 대응 (contextPath: /api)
                 path.startsWith("/api/swagger-ui") ||
                 path.startsWith("/api/v3/api-docs") ||
-                path.equals("/swagger-ui.html") ||
                 path.equals("/api/swagger-ui.html");
     }
 

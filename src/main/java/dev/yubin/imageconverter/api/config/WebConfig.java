@@ -23,7 +23,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:3000",
                         "https://image-converter.yubinshin.com",
                         "https://api.image-converter.yubinshin.com",
-                        "https://auth.image-converter.yubinshin.com"
+                        "https://auth.image-converter.yubinshin.com",
+                        "https://api.image-converter.yubinshin.com/swagger-ui/index.html"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
