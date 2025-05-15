@@ -90,7 +90,7 @@ rabbitmq:
     result-queue: ${RABBITMQ_RESULT_QUEUE:image.convert.result.queue}
 
 nfs:
-  root: ${NFS_ROOT:/uploads}
+  root: ${NFS_ROOT:../uploads}
 
 app:
   host-url: ${HOST_URL:http://localhost:8080}
