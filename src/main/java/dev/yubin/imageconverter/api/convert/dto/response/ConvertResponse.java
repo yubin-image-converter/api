@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ConvertResponse {
-    private String requestId;
-    private String userId;
+  private String requestId;
+  private String userId;
 }

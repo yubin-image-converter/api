@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OAuthCodeCallbackDto {
-    private OAuthProvider provider;
-    private String code;
-    private String state;
+  private OAuthProvider provider;
+  private String code;
+  private String state;
 }

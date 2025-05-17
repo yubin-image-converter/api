@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class NestOAuthUserDto {
-    private String email;
-    private String name;
-    private OAuthProvider provider;
-    private String providerId;
+  private String email;
+  private String name;
+  private OAuthProvider provider;
+  private String providerId;
 }

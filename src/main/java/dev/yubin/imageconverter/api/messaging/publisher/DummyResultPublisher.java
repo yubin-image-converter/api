@@ -10,27 +10,28 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DummyResultPublisher {
 
-    private final RabbitTemplate rabbitTemplate;
+  private final RabbitTemplate rabbitTemplate;
 
-    public DummyResultPublisher(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
+  public DummyResultPublisher(RabbitTemplate rabbitTemplate) {
+    this.rabbitTemplate = rabbitTemplate;
+  }
 
-    public void sendDummyResult(String requestId, ImageFormat format, String userId) {
-        log.info("🐛 더미 결과 발행 중: {}", requestId);
+  public void sendDummyResult(String requestId, ImageFormat format, String userId) {
+    log.info("🐛 더미 결과 발행 중: {}", requestId);
 
-        ImageConvertResult fakeResult = new ImageConvertResult(
-                requestId,
-                true,
-                "https://dummyimage.com/600x400/000/fff." + requestId + "." + format.name().toLowerCase(),
-                null,
-                format
-        );
+    ImageConvertResult fakeResult =
+        new ImageConvertResult(
+            requestId,
+            true,
+            "https://dummyimage.com/600x400/000/fff."
+                + requestId
+                + "."
+                + format.name().toLowerCase(),
+            null,
+            format);
 
-
-        rabbitTemplate.convertAndSend(
-                "image.convert.result.queue", // Consumer에서 듣는 큐 이름
-                fakeResult
-        );
-    }
+    rabbitTemplate.convertAndSend(
+        "image.convert.result.queue", // Consumer에서 듣는 큐 이름
+        fakeResult);
+  }
 }

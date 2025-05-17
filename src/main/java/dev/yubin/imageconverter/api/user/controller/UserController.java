@@ -17,21 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-    private final JwtProvider jwtProvider;
+  private final UserService userService;
+  private final JwtProvider jwtProvider;
 
-    @GetMapping("/me")
-    public UserResponseDto findMe() {
+  @GetMapping("/me")
+  public UserResponseDto findMe() {
 
-        Object principal = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (principal instanceof CustomUserDetails userDetails) {
-            return UserResponseDto.from(userDetails.getUser());
-        } else {
-            throw new RuntimeException("인증되지 않은 사용자입니다.");
-        }
+    if (principal instanceof CustomUserDetails userDetails) {
+      return UserResponseDto.from(userDetails.getUser());
+    } else {
+      throw new RuntimeException("인증되지 않은 사용자입니다.");
     }
+  }
 }

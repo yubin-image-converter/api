@@ -14,20 +14,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserResponseDto {
 
-    private String publicId;
-    private String email;
-    private String name;
-    private Role role;
-    private OAuthProvider provider;
+  private String publicId;
+  private String email;
+  private String name;
+  private Role role;
+  private OAuthProvider provider;
 
-    public static UserResponseDto from(User user) {
-        return UserResponseDto
-                .builder()
-                .publicId(user.getPublicId())
-                .email(user.getEmail())
-                .name(user.getName())
-                .provider(user.getProvider())
-                .role(user.getRole())
-                .build();
-    }
+  public static UserResponseDto from(User user) {
+    return UserResponseDto.builder()
+        .publicId(user.getPublicId())
+        .email(user.getEmail())
+        .name(user.getName())
+        .provider(user.getProvider())
+        .role(user.getRole())
+        .build();
+  }
 }

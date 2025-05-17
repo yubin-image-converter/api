@@ -6,9 +6,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-        info = @Info(title = "Image Converter API", version = "v1"),
-        servers = {@Server(url = "/api")}
-)
+    info = @Info(title = "Image Converter API", version = "v1"),
+    servers = {@Server(url = "/api")})
 @Configuration
-public class OpenApiConfig {
-}
+public class OpenApiConfig {}

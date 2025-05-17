@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ImageConvertRequestPublisher {
 
-    private final RabbitTemplate rabbitTemplate;
+  private final RabbitTemplate rabbitTemplate;
 
-    public void sendImageConvertRequest(ImageConvertMessage message) {
-        rabbitTemplate.convertAndSend("image.convert.exchange", "image.convert.routingKey", message);
-    }
+  public void sendImageConvertRequest(ImageConvertMessage message) {
+    rabbitTemplate.convertAndSend("image.convert.exchange", "image.convert.routingKey", message);
+  }
 }

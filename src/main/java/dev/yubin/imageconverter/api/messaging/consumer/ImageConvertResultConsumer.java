@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ImageConvertResultConsumer {
 
-    @RabbitListener(queues = "image.convert.result.queue")
-    public void handleConvertResult(ImageConvertResult result) {
-        log.info("변환 결과 수신: {}", result);
-        // DB 저장 또는 WebSocket 전송 등 처리
-    }
+  @RabbitListener(queues = "image.convert.result.queue")
+  public void handleConvertResult(ImageConvertResult result) {
+    log.info("변환 결과 수신: {}", result);
+    // DB 저장 또는 WebSocket 전송 등 처리
+  }
 }

@@ -8,6 +8,7 @@ import dev.yubin.imageconverter.api.security.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,79 +19,65 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/converts")
 @RequiredArgsConstructor
 @Slf4j
 public class ConvertController {
-    private final ConvertService convertService;
+  private final ConvertService convertService;
 
-    private final RedisTemplate<String, String> redisTemplate;
-    @Value("${app.host-url:http://localhost:8080}")
-    private String hostUrl;
+  private final RedisTemplate<String, String> redisTemplate;
 
+  @Value("${app.host-url:http://localhost:8080}")
+  private String hostUrl;
 
-    @Operation(summary = "이미지 업로드 후 변환 요청")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> convertImage(
-            @AuthenticationPrincipal CustomUserDetails userDetails,
+  @Operation(summary = "이미지 업로드 후 변환 요청")
+  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<?> convertImage(
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @Parameter(description = "이미지 파일", required = true) @RequestPart("file") MultipartFile file,
+      @Parameter(description = "변환할 포맷 (예: png, webp, jpeg)", required = true)
+          @RequestParam("format")
+          ImageFormat format) {
 
-            @Parameter(description = "이미지 파일", required = true)
-            @RequestPart("file") MultipartFile file,
+    String userId = userDetails.getUser().getPublicId();
+    log.info("변환요청 도착");
+    log.info(userId);
 
-            @Parameter(description = "변환할 포맷 (예: png, webp, jpeg)", required = true)
-            @RequestParam("format") ImageFormat format
-    ) {
+    String requestId = convertService.sendConvertRequest(file, format, userId);
+    return ResponseEntity.ok(new ConvertResponse(requestId, userId));
+  }
 
-        String userId = userDetails.getUser().getPublicId();
-        log.info("변환요청 도착");
-        log.info(userId);
+  @GetMapping("/result")
+  @Operation(summary = "변환된 ASCII 결과 URL 조회")
+  public ResponseEntity<?> getConvertResult(@RequestParam("requestId") String requestId) {
+    log.info("🟡 [DEBUG] ASCII 결과 조회 요청: requestId={}", requestId);
 
+    String key = "ascii_result:" + requestId;
+    String txtPath = redisTemplate.opsForValue().get(key);
 
+    log.info("🔎 [DEBUG] Redis 조회 key: {} → value: {}", key, txtPath);
 
-        String requestId = convertService.sendConvertRequest(file, format, userId);
-        return ResponseEntity.ok(new ConvertResponse(requestId, userId));
+    if (txtPath == null) {
+      log.warn("❌ [DEBUG] 변환 결과 없음: requestId={}", requestId);
+      return ResponseEntity.status(404).body(Map.of("message", "결과를 찾을 수 없습니다"));
     }
 
+    String fullUrl = hostUrl + "/api" + txtPath; // ✅ 절대경로로 변환
+    log.info("✅ [DEBUG] ASCII 결과 URL 반환: {}", fullUrl);
 
+    return ResponseEntity.ok(Map.of("txtUrl", fullUrl));
+  }
 
-    @GetMapping("/result")
-    @Operation(summary = "변환된 ASCII 결과 URL 조회")
-    public ResponseEntity<?> getConvertResult(
-            @RequestParam("requestId") String requestId
-    ) {
-        log.info("🟡 [DEBUG] ASCII 결과 조회 요청: requestId={}", requestId);
+  @PostMapping("/complete")
+  @Operation(summary = "ASCII 변환 완료 결과 수신 (워커 → 서버)")
+  public ResponseEntity<?> completeAscii(@Valid @RequestBody AsciiCompleteRequest request) {
+    log.info(
+        "✅ ASCII 변환 완료 수신: requestId={}, userId={}", request.getRequestId(), request.getUserId());
 
-        String key = "ascii_result:" + requestId;
-        String txtPath = redisTemplate.opsForValue().get(key);
+    String key = "ascii_result:" + request.getRequestId();
+    redisTemplate.opsForValue().set(key, request.getTxtUrl());
 
-        log.info("🔎 [DEBUG] Redis 조회 key: {} → value: {}", key, txtPath);
-
-        if (txtPath == null) {
-            log.warn("❌ [DEBUG] 변환 결과 없음: requestId={}", requestId);
-            return ResponseEntity.status(404).body(Map.of("message", "결과를 찾을 수 없습니다"));
-        }
-
-        String fullUrl = hostUrl + "/api" + txtPath; // ✅ 절대경로로 변환
-        log.info("✅ [DEBUG] ASCII 결과 URL 반환: {}", fullUrl);
-
-        return ResponseEntity.ok(Map.of("txtUrl", fullUrl));
-    }
-
-
-
-    @PostMapping("/complete")
-    @Operation(summary = "ASCII 변환 완료 결과 수신 (워커 → 서버)")
-    public ResponseEntity<?> completeAscii(
-            @Valid @RequestBody AsciiCompleteRequest request
-    ) {
-        log.info("✅ ASCII 변환 완료 수신: requestId={}, userId={}", request.getRequestId(), request.getUserId());
-
-        String key = "ascii_result:" + request.getRequestId();
-        redisTemplate.opsForValue().set(key, request.getTxtUrl());
-
-        return ResponseEntity.ok(Map.of("message", "변환 결과 저장 완료"));
-    }
+    return ResponseEntity.ok(Map.of("message", "변환 결과 저장 완료"));
+  }
 }

@@ -1,5 +1,7 @@
 package dev.yubin.imageconverter.api.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import dev.yubin.imageconverter.api.security.filter.JwtAuthenticationFilter;
 import dev.yubin.imageconverter.api.security.jwt.JwtProvider;
 import dev.yubin.imageconverter.api.security.userdetails.CustomUserDetailsService;
@@ -13,42 +15,37 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtProvider jwtProvider;
-    private final CustomUserDetailsService userDetailsService;
+  private final JwtProvider jwtProvider;
+  private final CustomUserDetailsService userDetailsService;
 
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.cors(withDefaults())
+        .csrf(AbstractHttpConfigurer::disable)
+        .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers(
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui.html",
+                        "/api/swagger-ui/**",
+                        "/api/swagger-ui.html",
+                        "/api/v3/api-docs/**",
+                        "/uploads/**",
+                        "/auth/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+        .addFilterBefore(
+            new JwtAuthenticationFilter(jwtProvider, userDetailsService),
+            UsernamePasswordAuthenticationFilter.class);
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**",
-                                         "/v3/api-docs/**",
-                                         "/swagger-ui.html",
-                                         "/api/swagger-ui/**",
-                                         "/api/swagger-ui.html",
-                                         "/api/v3/api-docs/**",
-                                         "/uploads/**",
-                                         "/auth/**")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider,
-                                                             userDetailsService),
-                                 UsernamePasswordAuthenticationFilter.class);
-
-
-        return http.build();
-    }
-
-
+    return http.build();
+  }
 }
