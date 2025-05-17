@@ -2,6 +2,7 @@ package dev.yubin.imageconverter.api.auth.controller;
 
 import dev.yubin.imageconverter.api.auth.controller.dto.NestOAuthUserDto;
 import dev.yubin.imageconverter.api.auth.controller.dto.TokenWithUserResponse;
+import dev.yubin.imageconverter.api.common.constants.ApiPaths;
 import dev.yubin.imageconverter.api.security.jwt.JwtProvider;
 import dev.yubin.imageconverter.api.user.dto.UserResponseDto;
 import dev.yubin.imageconverter.api.user.service.UserService;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(ApiPaths.AUTH)
 @RequiredArgsConstructor
 public class AuthController {
 

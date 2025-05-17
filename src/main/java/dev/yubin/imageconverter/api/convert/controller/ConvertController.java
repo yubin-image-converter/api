@@ -1,5 +1,6 @@
 package dev.yubin.imageconverter.api.convert.controller;
 
+import dev.yubin.imageconverter.api.common.constants.ApiPaths;
 import dev.yubin.imageconverter.api.convert.dto.request.AsciiCompleteRequest;
 import dev.yubin.imageconverter.api.convert.dto.response.ConvertResponse;
 import dev.yubin.imageconverter.api.convert.enums.ImageFormat;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/converts")
+@RequestMapping(ApiPaths.CONVERTS)
 @RequiredArgsConstructor
 @Slf4j
 public class ConvertController {

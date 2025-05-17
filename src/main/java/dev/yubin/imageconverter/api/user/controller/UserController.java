@@ -1,5 +1,6 @@
 package dev.yubin.imageconverter.api.user.controller;
 
+import dev.yubin.imageconverter.api.common.constants.ApiPaths;
 import dev.yubin.imageconverter.api.security.jwt.JwtProvider;
 import dev.yubin.imageconverter.api.security.userdetails.CustomUserDetails;
 import dev.yubin.imageconverter.api.user.dto.UserResponseDto;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
+@RequestMapping(ApiPaths.USERS)
 @RequiredArgsConstructor
 public class UserController {
 
