@@ -61,7 +61,7 @@ public class ConvertController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "결과 반환 성공", content = @Content(
 			mediaType = "application/json",
-			schema = @Schema(example = "{\"txtUrl\": \"https://api.image-converter.yubinshin.com/api/uploads/example.txt\"}")
+			schema = @Schema(example = "{\"txtUrl\": \"https://api.image-converter.yubinshin.com/uploads/example.txt\"}")
 		)),
 		@ApiResponse(responseCode = "404", description = "결과를 찾을 수 없음", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})

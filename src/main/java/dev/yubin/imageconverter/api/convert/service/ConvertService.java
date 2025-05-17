@@ -57,7 +57,7 @@ public class ConvertService {
 			throw new NotFoundException("변환 결과를 찾을 수 없습니다.");
 		}
 
-		return hostUrl + "/api" + txtPath;
+		return hostUrl + txtPath;
 	}
 
 	public void saveAsciiResult(String requestId, String txtUrl) {
