@@ -2,15 +2,17 @@
 FROM gradle:7.6-jdk17 AS builder
 WORKDIR /app
 
-# ✅ 의존성 캐시용: Gradle 설정 먼저 복사
+# ✅ 먼저 필요한 파일만 복사해서 캐시
 COPY build.gradle settings.gradle ./
-RUN gradle dependencies --no-daemon
+COPY gradle ./gradle
 
-# ✅ 전체 복사 (resources 포함)
+RUN gradle --no-daemon build || true  # 캐시용 빌드 실패는 무시
+
+# ✅ 그다음 소스 복사
 COPY . .
 
-# ✅ 테스트 생략하고 fat jar 생성
-RUN gradle bootJar -x test --no-daemon
+# ✅ 실제 빌드 (이제 소스 다 있음)
+RUN gradle clean bootJar -x test --no-daemon
 
 # 2단계: 런타임
 FROM eclipse-temurin:17-jre
