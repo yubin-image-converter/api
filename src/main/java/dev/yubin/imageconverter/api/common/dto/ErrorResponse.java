@@ -15,10 +15,10 @@ import lombok.Getter;
 @Schema(description = "에러 응답 포맷")
 public class ErrorResponse {
 
-	@Schema(description = "HTTP 상태 코드", example = "404")
+	@Schema(description = "HTTP 상태 코드", example = "500")
 	private final int status;
 
-	@Schema(description = "에러 메시지", example = "해당 사용자를 찾을 수 없습니다.")
+	@Schema(description = "에러 메시지", example = "Internal Server Error")
 	private final String message;
 
 	@Schema(description = "에러 발생 시각", example = "2025-05-17T21:50:01")

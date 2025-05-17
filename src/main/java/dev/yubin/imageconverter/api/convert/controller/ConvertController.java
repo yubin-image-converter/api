@@ -44,7 +44,7 @@ public class ConvertController {
 	private String hostUrl;
 
 	@Operation(summary = "이미지 업로드 후 변환 요청")
-	@ApiResponses({@ApiResponse(responseCode = "200", description = "요청 성공"),
+	@ApiResponses({@ApiResponse(responseCode = "200", description = "요청 성공", content = @Content),
 		@ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 		@ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -58,8 +58,13 @@ public class ConvertController {
 	}
 
 	@Operation(summary = "변환된 ASCII 결과 URL 조회")
-	@ApiResponses({@ApiResponse(responseCode = "200", description = "결과 반환 성공"),
-		@ApiResponse(responseCode = "404", description = "결과를 찾을 수 없음", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "결과 반환 성공", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(example = "{\"txtUrl\": \"https://api.image-converter.yubinshin.com/api/uploads/example.txt\"}")
+		)),
+		@ApiResponse(responseCode = "404", description = "결과를 찾을 수 없음", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+	})
 	@GetMapping("/result")
 	public ResponseEntity<?> getConvertResult(@RequestParam("requestId") String requestId) {
 		String txtUrl = convertService.getAsciiResultUrlOrThrow(requestId, hostUrl);
@@ -68,11 +73,17 @@ public class ConvertController {
 
 
 	@Operation(summary = "ASCII 변환 완료 결과 수신 (워커 → 서버)")
-	@ApiResponses({@ApiResponse(responseCode = "200", description = "결과 저장 성공"),
-		@ApiResponse(responseCode = "400", description = "요청 형식 오류", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "결과 저장 성공", content = @Content(
+			mediaType = "application/json",
+			schema = @Schema(example = "{\"message\": \"변환 결과 저장 완료\"}")
+		)),
+		@ApiResponse(responseCode = "400", description = "요청 형식 오류", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+	})
 	@PostMapping("/complete")
 	public ResponseEntity<?> completeAscii(@Valid @RequestBody AsciiCompleteRequest request) {
 		convertService.saveAsciiResult(request.getRequestId(), request.getTxtUrl());
 		return ResponseEntity.ok(Map.of("message", "변환 결과 저장 완료"));
 	}
+
 }
