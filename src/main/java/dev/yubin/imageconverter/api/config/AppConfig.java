@@ -9,8 +9,8 @@ import org.springframework.web.client.RestTemplate;
 @EnableConfigurationProperties(RabbitMQProperties.class)
 public class AppConfig {
 
-  @Bean
-  public RestTemplate restTemplate() {
-    return new RestTemplate();
-  }
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 }

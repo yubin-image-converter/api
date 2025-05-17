@@ -8,12 +8,12 @@ import lombok.Setter;
 @Setter
 public class AsciiCompleteRequest {
 
-  @NotBlank(message = "requestId는 필수입니다.")
-  private String requestId;
+	@NotBlank(message = "requestId는 필수입니다.")
+	private String requestId;
 
-  @NotBlank(message = "userId는 필수입니다.")
-  private String userId;
+	@NotBlank(message = "userId는 필수입니다.")
+	private String userId;
 
-  @NotBlank(message = "txtUrl은 필수입니다.")
-  private String txtUrl;
+	@NotBlank(message = "txtUrl은 필수입니다.")
+	private String txtUrl;
 }
