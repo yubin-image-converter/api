@@ -34,17 +34,4 @@ public class AuthController {
     return ResponseEntity.ok(new TokenWithUserResponse(jwt, user));
   }
 
-  @GetMapping("/logout")
-  public ResponseEntity<Void> logout(HttpServletResponse response) {
-    ResponseCookie cookie =
-        ResponseCookie.from("access_token", "")
-            .httpOnly(true)
-            .secure(false)
-            .path("/")
-            .maxAge(0)
-            .sameSite("Lax")
-            .build();
-    response.addHeader("Set-Cookie", cookie.toString());
-    return ResponseEntity.ok().build();
-  }
 }
