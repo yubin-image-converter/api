@@ -32,7 +32,7 @@ public class UserService {
   /** Nest.js에서 전달된 사용자 정보로 회원가입 또는 로그인 처리 */
   public UserResponseDto saveOrLogin(NestOAuthUserDto userInfo) {
     log.info(
-            "✅ 사용자 정보 수신 from Nest.js: provider={}, email={}",
+            "사용자 정보 수신 from Nest.js: provider={}, email={}",
             userInfo.getProvider(),
             userInfo.getEmail());
 
