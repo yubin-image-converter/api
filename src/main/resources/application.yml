@@ -66,11 +66,11 @@ server:
 
 logging:
   level:
-    root: ${LOG_LEVEL_ROOT:info}
+    root: ${LOG_LEVEL_ROOT:debug}
     org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:debug}
     org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_HIBERNATE_BINDER:trace}
-    org.springframework.web: ${LOG_LEVEL_ORG_SPRINGFRAMEWORK_WEB:info}
-    org.springframework.security: ${LOG_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY:info}
+    org.springframework.web: ${LOG_LEVEL_ORG_SPRINGFRAMEWORK_WEB:debug}
+    org.springframework.security: ${LOG_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY:debug}
 
 jwt:
   secret: ${JWT_SECRET:this_is_a_fake_jwt_secret_for_local_testing_12345!}

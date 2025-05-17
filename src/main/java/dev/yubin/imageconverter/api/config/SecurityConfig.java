@@ -24,6 +24,11 @@ public class SecurityConfig {
   private final CustomUserDetailsService userDetailsService;
 
   @Bean
+  public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    return new JwtAuthenticationFilter(jwtProvider, userDetailsService);
+  }
+
+  @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors(withDefaults())
         .csrf(AbstractHttpConfigurer::disable)
@@ -32,19 +37,15 @@ public class SecurityConfig {
             auth ->
                 auth.requestMatchers(
                         "/swagger-ui/**",
-                        "/v3/api-docs/**",
                         "/swagger-ui.html",
-                        "/api/swagger-ui/**",
-                        "/api/swagger-ui.html",
-                        "/api/v3/api-docs/**",
-                        "/uploads/**",
-                        "/auth/**")
+                        "/v3/api-docs/**",
+                        "/v3/api-docs/swagger-config",
+                        "/api/auth/**",
+                        "/api/uploads/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
-        .addFilterBefore(
-            new JwtAuthenticationFilter(jwtProvider, userDetailsService),
-            UsernamePasswordAuthenticationFilter.class);
+        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
