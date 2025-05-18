@@ -38,3 +38,7 @@ out/
 
 .env
 .DS_Store
+
+*.jar
+jar-unzip/
+debug-app.jar
