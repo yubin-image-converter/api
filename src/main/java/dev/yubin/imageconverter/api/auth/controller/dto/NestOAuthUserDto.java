@@ -12,20 +12,20 @@ import lombok.Getter;
 @AllArgsConstructor
 public class NestOAuthUserDto {
 
-	@Email
-	@NotBlank
-	@Schema(description = "사용자 이메일 주소", example = "yubin@example.com")
-	private String email;
+  @Email
+  @NotBlank
+  @Schema(description = "사용자 이메일 주소", example = "yubin@example.com")
+  private String email;
 
-	@NotBlank
-	@Schema(description = "사용자 이름 또는 닉네임", example = "유빈")
-	private String name;
+  @NotBlank
+  @Schema(description = "사용자 이름 또는 닉네임", example = "유빈")
+  private String name;
 
-	@NotNull
-	@Schema(description = "OAuth 제공자", example = "google")
-	private OAuthProvider provider;
+  @NotNull
+  @Schema(description = "OAuth 제공자", example = "google")
+  private OAuthProvider provider;
 
-	@NotBlank
-	@Schema(description = "제공자 측 사용자 ID", example = "117283192837192837128")
-	private String providerId;
+  @NotBlank
+  @Schema(description = "제공자 측 사용자 ID", example = "117283192837192837128")
+  private String providerId;
 }

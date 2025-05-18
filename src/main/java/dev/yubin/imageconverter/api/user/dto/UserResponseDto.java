@@ -24,7 +24,10 @@ public class UserResponseDto {
   @Schema(description = "닉네임 또는 이름", example = "Yubin")
   private String name;
 
-  @Schema(description = "사용자 역할", example = "USER", allowableValues = {"USER", "ADMIN"})
+  @Schema(
+      description = "사용자 역할",
+      example = "USER",
+      allowableValues = {"USER", "ADMIN"})
   private Role role;
 
   @Schema(description = "OAuth 제공자", example = "google")

@@ -1,0 +1,96 @@
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME:image-converter-api}
+
+  web:
+    resources:
+      static-locations: ${STATIC_LOCATIONS:file:/Users/river.yb.shin/personal-workspace/image-converter/uploads/}
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+
+  docker:
+    compose:
+      enabled: ${SPRING_DOCKER_COMPOSE_ENABLED:false}
+
+  devtools:
+    restart:
+      enabled: ${SPRING_DEVTOOLS_RESTART_ENABLED:true}
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/image-converter}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        default_schema: ${SPRING_JPA_DEFAULT_SCHEMA:public}
+        dialect: ${SPRING_JPA_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+        jdbc:
+          time_zone: ${SPRING_JPA_TIME_ZONE:UTC}
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      password: ${SPRING_DATA_REDIS_PASSWORD:local}
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+springdoc:
+  api-docs:
+    path: ${SPRINGDOC_API_DOCS_PATH:/v3/api-docs}
+  swagger-ui:
+    url: ${SPRINGDOC_SWAGGER_UI_URL:/v3/api-docs}
+    config-url: ${SPRINGDOC_SWAGGER_UI_CONFIG_URL:/v3/api-docs/swagger-config}
+
+server:
+  address: ${SERVER_ADDRESS:0.0.0.0}
+  port: ${SERVER_PORT:8080}
+#  servlet:
+#    context-path: ${SERVER_SERVLET_CONTEXT_PATH:/api}
+
+logging:
+  level:
+    root: ${LOG_LEVEL_ROOT:debug}
+    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:debug}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_HIBERNATE_BINDER:trace}
+    org.springframework.web: ${LOG_LEVEL_ORG_SPRINGFRAMEWORK_WEB:debug}
+    org.springframework.security: ${LOG_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY:debug}
+
+jwt:
+  secret: ${JWT_SECRET:this_is_a_fake_jwt_secret_for_local_testing_12345!}
+  expiration-ms: ${JWT_EXPIRATION_MS:604800000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+rabbitmq:
+  convert:
+    exchange: ${RABBITMQ_EXCHANGE:image.convert.exchange}
+    queue: ${RABBITMQ_QUEUE:image.convert.queue}
+    routing-key: ${RABBITMQ_ROUTING_KEY:image.convert.routingKey}
+    result-queue: ${RABBITMQ_RESULT_QUEUE:image.convert.result.queue}
+
+nfs:
+  root: ${NFS_ROOT:../uploads}
+
+app:
+  host-url: ${HOST_URL:http://localhost:8080}

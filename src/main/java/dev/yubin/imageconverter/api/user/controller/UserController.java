@@ -30,8 +30,11 @@ public class UserController {
 
   @Operation(summary = "내 정보 조회", description = "현재 인증된 사용자의 정보를 반환합니다.")
   @ApiResponses({
-      @ApiResponse(responseCode = "200", description = "성공적으로 사용자 정보를 반환함"),
-      @ApiResponse(responseCode = "401", description = "인증되지 않은 사용자", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    @ApiResponse(responseCode = "200", description = "성공적으로 사용자 정보를 반환함"),
+    @ApiResponse(
+        responseCode = "401",
+        description = "인증되지 않은 사용자",
+        content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @GetMapping("/me")
   public UserResponseDto findMe() {

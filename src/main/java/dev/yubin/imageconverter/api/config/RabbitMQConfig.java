@@ -1,5 +1,6 @@
 package dev.yubin.imageconverter.api.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -11,47 +12,46 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Configuration
 @Slf4j
 public class RabbitMQConfig {
 
-	private final RabbitMQProperties properties;
+  private final RabbitMQProperties properties;
 
-	public RabbitMQConfig(RabbitMQProperties properties) {
-		this.properties = properties;
-	}
+  public RabbitMQConfig(RabbitMQProperties properties) {
+    this.properties = properties;
+  }
 
-	@Bean
-	public Queue convertQueue() {
-		return new Queue(properties.getQueue());
-	}
+  @Bean
+  public Queue convertQueue() {
+    return new Queue(properties.getQueue());
+  }
 
-	@Bean
-	public Queue resultQueue() {
-		return new Queue(properties.getResultQueue(), true);
-	}
+  @Bean
+  public Queue resultQueue() {
+    return new Queue(properties.getResultQueue(), true);
+  }
 
-	@Bean
-	public DirectExchange exchange() {
-		return new DirectExchange(properties.getExchange());
-	}
+  @Bean
+  public DirectExchange exchange() {
+    return new DirectExchange(properties.getExchange());
+  }
 
-	@Bean
-	public Binding binding() {
-		return BindingBuilder.bind(convertQueue()).to(exchange()).with(properties.getRoutingKey());
-	}
+  @Bean
+  public Binding binding() {
+    return BindingBuilder.bind(convertQueue()).to(exchange()).with(properties.getRoutingKey());
+  }
 
-	@Bean
-	public MessageConverter jsonMessageConverter() {
-		return new Jackson2JsonMessageConverter();
-	}
+  @Bean
+  public MessageConverter jsonMessageConverter() {
+    return new Jackson2JsonMessageConverter();
+  }
 
-	@Bean
-	public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, MessageConverter jsonMessageConverter) {
-		RabbitTemplate template = new RabbitTemplate(connectionFactory);
-		template.setMessageConverter(jsonMessageConverter);
-		return template;
-	}
+  @Bean
+  public RabbitTemplate rabbitTemplate(
+      ConnectionFactory connectionFactory, MessageConverter jsonMessageConverter) {
+    RabbitTemplate template = new RabbitTemplate(connectionFactory);
+    template.setMessageConverter(jsonMessageConverter);
+    return template;
+  }
 }

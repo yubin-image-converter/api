@@ -25,7 +25,10 @@ public class UserRequestDto {
   private OAuthProvider provider;
 
   @NotBlank(message = "OAuth 제공자 ID는 필수입니다.")
-  @Schema(description = "OAuth 제공자에서 발급한 사용자 고유 ID", example = "109283745908127345908", required = true)
+  @Schema(
+      description = "OAuth 제공자에서 발급한 사용자 고유 ID",
+      example = "109283745908127345908",
+      required = true)
   private String providerId;
 
   @NotBlank(message = "사용자 이름은 필수입니다.")
