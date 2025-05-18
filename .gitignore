@@ -42,3 +42,5 @@ out/
 *.jar
 jar-unzip/
 debug-app.jar
+
+.DS_Store

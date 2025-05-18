@@ -88,3 +88,7 @@ tasks.named('bootRun') {
 tasks.named('build') {
     dependsOn 'spotlessApply'
 }
+
+tasks.named('bootJar') {
+    mainClass.set('dev.yubin.imageconverter.ImageConverterApiApplication')
+}
