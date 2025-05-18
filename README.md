@@ -2,7 +2,16 @@
 
 This is the core backend service for the Image Converter project. It receives image upload requests, manages conversion state, and provides result files. The server communicates with Rust-based workers through RabbitMQ and uses Redis and PostgreSQL for efficient state and data management.
 
+
 ---
+
+## API Documentation
+
+Swagger UI (SpringDoc):
+[https://api.image-converter.yubinshin.com/swagger-ui/index.html](https://api.image-converter.yubinshin.com/swagger-ui/index.html)
+
+---
+
 
 ## Technology Stack
 
@@ -95,13 +104,6 @@ STATIC_LOCATIONS=file:../uploads/
 SERVER_PORT=8080
 SERVER_SERVLET_CONTEXT_PATH=/api
 ```
-
----
-
-## API Documentation
-
-Swagger UI (SpringDoc):
-[`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html)
 
 ---
 
