@@ -92,3 +92,9 @@ tasks.named('build') {
 tasks.named('bootJar') {
     mainClass.set('dev.yubin.imageconverter.ImageConverterApiApplication')
 }
+
+jar {
+    archiveBaseName.set("image-converter-api")
+    archiveVersion.set("")
+    archiveClassifier.set("")
+}
