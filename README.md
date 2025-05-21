@@ -1,8 +1,17 @@
 # API Server (Spring Boot)
 
-This is the core backend service for the Image Converter project. It receives image upload requests, manages conversion state, and provides result files. The server communicates with Rust-based workers through RabbitMQ and uses Redis and PostgreSQL for efficient state and data management.
+이 프로젝트는 이미지 변환 서비스를 위한 핵심 백엔드입니다. 사용자의 이미지 업로드 요청을 처리하고, 변환 상태를 관리하며, 최종 결과 파일을 제공합니다. Rust 기반 워커와는 RabbitMQ를 통해 통신하며, 상태 관리 및 데이터 저장을 위해 Redis와 PostgreSQL을 함께 사용합니다.
+
 
 ---
+
+## API Documentation
+
+Swagger UI (SpringDoc):
+[https://api.image-converter.yubinshin.com/swagger-ui/index.html](https://api.image-converter.yubinshin.com/swagger-ui/index.html)
+
+---
+
 
 ## Technology Stack
 
@@ -10,10 +19,10 @@ This is the core backend service for the Image Converter project. It receives im
 * Spring Boot 3.x
 * Spring Security + JWT
 * Spring Data JPA + PostgreSQL
-* Redis (for caching and WebSocket session sharing)
-* RabbitMQ (asynchronous messaging)
+* Redis (worker 와 nfs 경로공유)
+* RabbitMQ (비동기 메시징 처리)
 * Swagger (API documentation)
-* Gradle (build tool)
+* Gradle  (빌드 도구)
 
 ---
 
@@ -21,15 +30,15 @@ This is the core backend service for the Image Converter project. It receives im
 
 | Area               | Description                                                                 |
 | ------------------ | --------------------------------------------------------------------------- |
-| Image Conversion   | Handles image uploads, manages state, sends requests to worker via RabbitMQ |
-| Auth Integration   | Validates JWTs issued by external auth server                               |
-| User Info          | Retrieves user data and roles (USER / ADMIN)                                |
-| Callback Handling  | Accepts conversion results from worker via HTTP POST                        |
-| Exception Handling | Consistent error response via GlobalExceptionHandler                        |
+| 이미지 변환   | 이미지 업로드를 처리하고 상태를 관리하며, 워커에게 RabbitMQ로 변환 요청 전송 |
+| 인증 연동   | 외부 인증 서버로 발급한 JWT를 전달                             |
+| 사용자 정보| 현재 로그인한 사용자 정보 및 권한 조회 (USER / ADMIN)        |          
+| 콜백 처리  |워커로부터 변환 결과를 HTTP POST로 수신                    |
+| 예외 처리 | GlobalExceptionHandler를 통한 일관된 에러 응답 처리|
 
 ---
 
-## Project Structure (summary)
+## Project Structure 
 
 ```bash
 src/main/java/dev/yubin/imageconverter/api
@@ -49,7 +58,7 @@ src/main/java/dev/yubin/imageconverter/api
 ### Local Development
 
 ```bash
-# PostgreSQL, Redis, and RabbitMQ must be running (locally or via Docker)
+# PostgreSQL, Redis, RabbitMQ는 로컬 또는 Docker로 실행되어 있어야 합니다.
 
 ./gradlew build
 java -jar build/libs/api-*.jar
@@ -98,17 +107,10 @@ SERVER_SERVLET_CONTEXT_PATH=/api
 
 ---
 
-## API Documentation
+## Testing(구현예정)
 
-Swagger UI (SpringDoc):
-[`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html)
-
----
-
-## Testing
-
-* Uses JUnit 5 and Mockito
-* Automatically runs in GitHub Actions CI pipeline
+- JUnit 5와 Mockito 기반 단위 테스트 작성
+- GitHub Actions CI 파이프라인에서 자동 실행
 
 ---
 
