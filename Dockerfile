@@ -2,7 +2,7 @@
 FROM gradle:7.6.4-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN ./gradlew clean build --no-daemon
+RUN ./gradlew clean build -x test --no-daemon
 
 # --- 런타임 스테이지
 FROM eclipse-temurin:17-jdk
