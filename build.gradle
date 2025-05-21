@@ -94,6 +94,10 @@ tasks.named('bootJar') {
 }
 
 jar {
+    enabled = false
+}
+
+bootJar {
     archiveBaseName.set("image-converter-api")
     archiveVersion.set("")
     archiveClassifier.set("")
