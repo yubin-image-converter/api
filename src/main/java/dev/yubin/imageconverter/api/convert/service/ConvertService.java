@@ -24,8 +24,7 @@ public class ConvertService {
   private final RabbitTemplate rabbitTemplate;
   private final RabbitMQProperties rabbitMQProperties;
   private final RedisTemplate<String, String> redisTemplate;
-
-  @Autowired private NfsUtil nfsUtil;
+  private final NfsUtil nfsUtil;
 
   public String sendConvertRequest(MultipartFile file, ImageFormat format, String userId) {
     try {
